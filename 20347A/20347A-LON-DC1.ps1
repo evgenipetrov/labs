@@ -1,24 +1,30 @@
 ﻿$computerName = 'DC1'
-$commonPassword = 'demo!234'
+$commonPassword = 'Pa$$w0rd'
 
 $adminUsername = 'Administrator'
 $adminPassword = $commonPassword
 
 $domainName = 'adatum.com'
+
+$domainUsers = @()
+$domainUsers += @{'SamAccountName'='holly';'DisplayName'='Holly Dickson';'Upn'='holly.dickson@adatum.com';}
 #
-$currentScript = Get-LBCurrentFile
-Set-LBRunOnceScript -LiteralPath $currentScript.FullName
+$currentScript = Get-LTCurrentFile
+Set-LTRunOnceScript -LiteralPath $currentScript.FullName
 
-Set-LBAutologon -Username $adminUsername -Password $adminPassword
+Set-LTAutologon -Username $adminUsername -Password $adminPassword
 
-Rename-LBComputer -NewName $computerName
+Rename-LTComputer -NewName $computerName
 
 $secAdminPassword = ConvertTo-SecureString -String $adminPassword -AsPlainText -Force
-Add-LBDomainContoller -DomainName $domainName -SafeModeAdministratorPassword $secAdminPassword
+Add-LTDomainContoller -DomainName $domainName -SafeModeAdministratorPassword $secAdminPassword
 
-Add-LBUser -SamAccountName 'holly' -DisplayName 'Holly Dickson' -Upn 'holly.dickson@adatum.com' -Password $commonPassword
+foreach($domainUser in $domainUsers){
+    Add-LTUser -SamAccountName $domainUser.SamAccountName -DisplayName $domainUser.DisplayName -Upn $domainUser.Upn -Password $commonPassword
+}
 
 
+Remove-Module PowerShell.LabTools
 
 
 
