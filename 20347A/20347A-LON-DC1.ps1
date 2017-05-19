@@ -1,10 +1,11 @@
 ﻿$computerName = 'DC1'
 $commonPassword = 'Pa$$w0rd'
 
-$adminUsername = 'Administrator'
-$adminPassword = $commonPassword
-
 $domainName = 'adatum.com'
+$domainNetbiosName = $domainName.Split('.')[0]
+
+$adminUsername = '{0}\Administrator' -f $domainNetbiosName
+$adminPassword = $commonPassword
 
 $domainUsers = @()
 $domainUsers += @{'SamAccountName'='holly';'DisplayName'='Holly Dickson';'Upn'='holly.dickson@adatum.com';}
