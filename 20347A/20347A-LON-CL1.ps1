@@ -1,7 +1,7 @@
 $computerName = 'CL1'
 $domainName = "adatum.com"
 $adminUsername = 'administrator'
-$adminPassword = 'demo!234'
+$adminPassword = 'Pa$$w0rd'
 $localAdmins = @(
   'adatum\holly'
 )
