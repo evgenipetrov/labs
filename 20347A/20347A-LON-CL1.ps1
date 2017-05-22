@@ -1,20 +1,26 @@
 $computerName = 'CL1'
+$commonPassword = 'Pa$$w0rd'
+
+$adminUsername = 'Administrator'
+$adminPassword = $commonPassword
+
 $domainName = "adatum.com"
-$adminUsername = 'administrator'
-$adminPassword = 'Pa$$w0rd'
-$localAdmins = @(
-  'adatum\holly'
-)
+
+$localAdmins = @('adatum\holly')
 #
 
 Enable-LTRunEverythingAsAdministrator
 
-Rename-LTComputer -NewName $computerName
-
 $currentScript = Get-LTCurrentFile
 Set-LTRunOnceScript -LiteralPath $currentScript.FullName
 
-Set-LTAutologon -Username $adminUsername -Password $adminPassword
+if($env:COMPUTERNAME -eq $env:USERDOMAIN){
+    Set-LTAutologon -Username $env:USERNAME -Password $commonPassword
+} else {
+    Set-LTAutologon -Username $adminUsername -Password $adminPassword
+}
+
+Rename-LTComputer -NewName $computerName
 
 $secAdminPassword = ConvertTo-SecureString $adminPassword -AsPlainText -Force
 $credential = New-Object System.Management.Automation.PSCredential ($adminUsername, $secAdminPassword)

@@ -24,7 +24,6 @@ foreach($domainUser in $domainUsers){
     Add-LTUser -SamAccountName $domainUser.SamAccountName -DisplayName $domainUser.DisplayName -Upn $domainUser.Upn -Password $commonPassword
 }
 
-
 Remove-Module PowerShell.LabTools
 
 
